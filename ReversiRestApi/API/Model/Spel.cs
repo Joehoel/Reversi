@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace API.Model
@@ -9,6 +11,7 @@ namespace API.Model
     public class Spel : ISpel
     {
         private const int bordOmvang = 8;
+
         private readonly int[,] richting = new int[8, 2] {
                                 {  0,  1 },         // naar rechts
                                 {  0, -1 },         // naar links
@@ -25,20 +28,24 @@ namespace API.Model
         public string Speler1Token { get; set; }
         public string Speler2Token { get; set; }
 
-        private Kleur[,] bord;
+        [NotMapped] [JsonIgnore] private Kleur[,] _bord;
+
+
+        [NotMapped]
+        [JsonIgnore]
         public Kleur[,] Bord
         {
             get
             {
-                return bord;
+                return _bord;
             }
             set
             {
-                bord = value;
+                _bord = value;
             }
         }
 
-        public Kleur AandeBeurt { get; set; }
+        [NotMapped] [JsonIgnore] public Kleur AandeBeurt { get; set; }
         public Spel()
         {
             Token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
@@ -77,9 +84,9 @@ namespace API.Model
             {
                 for (int kolomZet = 0; kolomZet < bordOmvang; kolomZet++)
                 {
-                    if (bord[rijZet, kolomZet] == Kleur.Wit)
+                    if (_bord[rijZet, kolomZet] == Kleur.Wit)
                         aantalWit++;
-                    else if (bord[rijZet, kolomZet] == Kleur.Zwart)
+                    else if (_bord[rijZet, kolomZet] == Kleur.Zwart)
                         aantalZwart++;
                 }
             }

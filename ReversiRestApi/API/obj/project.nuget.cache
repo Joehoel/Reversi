@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wxfUif4pzOI1y1mxe8Bm+kX2hHdBbJRohZi51Yq85vNAnvR9Nm6AS09zvvrbcgON61IAVDIkLCMu/Xv7QyhEcA==",
+  "dgSpecHash": "/uXTFDCGppMb9raXdYPehEABl9mjGZrRpxVCpUw1ouYD6MQ8AwNFCN4Qsyjp5kDmVpEOeYb1zDA3j/VO/fEBCw==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Joel\\code\\ReversiRestApi\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Joel\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\Joel\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",

@@ -20,7 +20,7 @@ class FeedbackWidget {
         console.log(`Showing widget with message: ${message} and type: ${type}`);
         this.element.css("display", "block");
         this.element.addClass(`alert-${type}`);
-        this.element.text(message);
+        this.element.html(message);
 
         this.log({ message, type });
     }
@@ -77,7 +77,7 @@ class FeedbackWidget {
     history() {
         const arr = JSON.parse(localStorage.getItem(this.key)) ?? [];
 
-        const str = arr.map(v => `${v.type} - ${v.message}`).join("\n");
+        const str = arr.map(v => `${v.type} - ${v.message}`).join("<br />");
         this.success(str);
     }
 }

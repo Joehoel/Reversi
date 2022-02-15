@@ -4028,11 +4028,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Joel\\code\\ReversiRestApi\\Tests\\Tests.csproj",
+      "projectUniqueName": "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\Tests\\Tests.csproj",
       "projectName": "Tests",
-      "projectPath": "c:\\Users\\Joel\\code\\ReversiRestApi\\Tests\\Tests.csproj",
+      "projectPath": "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\Tests\\Tests.csproj",
       "packagesPath": "C:\\Users\\Joel\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Joel\\code\\ReversiRestApi\\Tests\\obj\\",
+      "outputPath": "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -4054,8 +4054,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "c:\\Users\\Joel\\code\\ReversiRestApi\\API\\API.csproj": {
-              "projectPath": "c:\\Users\\Joel\\code\\ReversiRestApi\\API\\API.csproj"
+            "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj": {
+              "projectPath": "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj"
             }
           }
         }
