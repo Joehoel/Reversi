@@ -7,41 +7,40 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
 
-    [Route("api/spel")]
+    [Route("api/game")]
     [ApiController]
     public class SpelController : ControllerBase
     {
-        private readonly ISpelRepository _repository;
+        private readonly IGameRepository _repository;
 
-        public SpelController(ISpelRepository repository)
+        public SpelController(IGameRepository repository)
         {
             _repository = repository;
         }
 
 
-        // GET api/spel
         [HttpGet]
-        public ActionResult<IEnumerable<Spel>> GetSpelOmschrijvingenVanSpellenMetWachtendeSpeler()
+        public ActionResult<IEnumerable<Game>> GetSpelOmschrijvingenVanSpellenMetWachtendeSpeler()
         {
-            return _repository.GetSpellen().Where(spel => string.IsNullOrEmpty(spel.Player2Token)).ToList();
+            return _repository.GetGames().Where(spel => string.IsNullOrEmpty(spel.Player2Token)).ToList();
 
         }
 
         [HttpGet("{token}")]
-        public ActionResult<Spel> GetSpelByToken(string token)
+        public ActionResult<Game> GetSpelByToken(string token)
         {
-            var spel = _repository.GetSpel(token);
+            var spel = _repository.GetGame(token);
             if (spel == null) return NotFound();
             return Ok(spel);
         }
 
 
-        [HttpGet("speler/{spelerToken}")]
-        public ActionResult<Spel> GetSpelBySpelerToken(string spelerToken)
+        [HttpGet("player/{playerToken}")]
+        public ActionResult<Game> GetSpelBySpelerToken(string playerToken)
         {
-            var spel = _repository.GetSpellen().Where(spel => spel.Player1Token == spelerToken || spel.Player2Token == spelerToken);
-            if (spel == null) return NotFound();
-            return Ok(spel);
+            var game = _repository.GetGames().Where(game => game.Player1Token == playerToken || game.Player2Token == playerToken);
+            if (game == null) return NotFound();
+            return Ok(game);
         }
         // [HttpGet("{spelerToken}")]
         // public ActionResult<Spel> GetSpelBySpelerToken(string spelerToken)
@@ -50,89 +49,91 @@ namespace API.Controllers
         //     if (spel == null) return NotFound();
         //     return Ok(spel);
         // }
-        public class SpelInfo
+        public class GameInfo
         {
-            public string Omschrijving { get; set; }
+            public string Description { get; set; }
             public string Token { get; set; }
         }
         [HttpPost]
-        public ActionResult<SpelInfo> AddSpel([FromBody] SpelInfo spelInfo)
+        public ActionResult<GameInfo> AddGame([FromBody] GameInfo gameInfo)
         {
-            var spel = new Spel();
+            var game = new Game();
 
-            spel.Token = Guid.NewGuid().ToString();
-            spel.Player1Token = spelInfo.Token;
-            spel.Description = spelInfo.Omschrijving;
+            game.Token = Guid.NewGuid().ToString();
+            game.Player1Token = gameInfo.Token;
+            game.Description = gameInfo.Description;
 
-            _repository.AddSpel(spel);
+            _repository.AddGame(game);
 
-            return Created(nameof(AddSpel), spel);
+            return Created(nameof(AddGame), game);
         }
 
 
 
         [HttpGet("beurt/{token}")]
-        public ActionResult<int> GetAanDeBeurt(string token)
+        public ActionResult<int> GetTurnColor(string token)
         {
-            var spel = _repository.GetSpel(token);
-            if (spel == null) return NotFound();
+            var game = _repository.GetGame(token);
+            if (game == null) return NotFound();
 
-            return Ok(spel.TurnColor);
+            return Ok(game.TurnColor);
         }
 
         public class GameData
         {
             public string Token { get; set; }
 
-            public string SpelerToken { get; set; }
+            public string PlayerToken { get; set; }
         }
 
-        public class Zet : GameData
+        public class MoveData : GameData
         {
-            public int Rij { get; set; }
-            public int Kolom { get; set; }
-            public bool Pas { get; set; } = false;
+            public int Row { get; set; }
+            public int Column { get; set; }
+            public bool Pass { get; set; } = false;
 
 
         }
 
-        [HttpPut("zet")]
-        public ActionResult<Spel> DoeZet([FromBody] Zet data)
+        [HttpPut("move")]
+        public ActionResult<Game> Move([FromBody] MoveData data)
         {
-            var spel = _repository.GetSpel(data.Token);
-            if (spel == null) return NotFound();
+            var game = _repository.GetGame(data.Token);
+            if (game == null) return NotFound();
 
-            if ((spel.TurnColor == Color.White ? spel.Player1Token : spel.Player2Token) != data.SpelerToken)
+            // Check if its the players turn
+            if ((game.TurnColor == Color.White ? game.Player1Token : game.Player2Token) != data.PlayerToken)
             {
-                return Unauthorized("Niet jou beurt");
+                return Unauthorized("Niet jouw beurt");
             }
 
-            if (!spel.TurnPossible(data.Rij, data.Kolom))
+            // Check if the turn is a valid move
+            if (!game.TurnPossible(data.Row, data.Column))
             {
                 return BadRequest("Niet mogelijk");
             }
 
-            if (data.Pas)
+            if (data.Pass)
             {
-                spel.Pass();
-                return Ok(spel);
+                game.Pass();
+                return Ok(game);
             }
 
-            spel.Move(data.Rij, data.Kolom);
+            game.Move(data.Row, data.Column);
 
-            return Ok(spel);
+            return Ok(game);
         }
 
 
-        [HttpPut("opgeven")]
-        public ActionResult<Spel> Opgeven([FromBody] GameData data)
+        [HttpPut("concede")]
+        public ActionResult<Game> Concede([FromBody] GameData data)
         {
-            var spel = _repository.GetSpel(data.Token);
-            if (spel == null) return NotFound();
+            var game = _repository.GetGame(data.Token);
+            if (game == null) return NotFound();
 
-            if ((spel.TurnColor == Color.White ? spel.Player1Token : spel.Player2Token) != data.SpelerToken)
+            if ((game.TurnColor == Color.White ? game.Player1Token : game.Player2Token) != data.PlayerToken)
             {
-                return Unauthorized("Niet jou beurt");
+                return Unauthorized("Niet jouw beurt");
             }
 
             // TODO: Opgeven

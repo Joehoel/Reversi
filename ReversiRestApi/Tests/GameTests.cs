@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Tests
 {
     [TestFixture]
-    public class SpelTest
+    public class GameTests
     {
         // geen kleur = 0
         // Wit = 1
@@ -15,7 +15,7 @@ namespace Tests
         public void ZetMogelijk__BuitenBord_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game game = new Game();
             //     0 1 2 3 4 5 6 7
             //                     v
             // 0   0 0 0 0 0 0 0 0
@@ -28,9 +28,9 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
             //                     1 <
             // Act
-            spel.TurnColor = Color.White;
+            game.TurnColor = Color.White;
             //var actual = spel.ZetMogelijk(8, 8);
-            Exception ex = Assert.Throws<Exception>(delegate { spel.TurnPossible(8, 8); });
+            Exception ex = Assert.Throws<Exception>(delegate { game.TurnPossible(8, 8); });
             Assert.That(ex.Message, Is.EqualTo("Zet (8,8) ligt buiten het bord!"));
 
             // Assert
@@ -40,7 +40,7 @@ namespace Tests
         public void ZetMogelijk_StartSituatieZet23Zwart_ReturnTrue()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             //     0 1 2 3 4 5 6 7
             //           v
             // 0   0 0 0 0 0 0 0 0
@@ -63,7 +63,7 @@ namespace Tests
         public void ZetMogelijk_StartSituatieZet23Wit_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             //     0 1 2 3 4 5 6 7
             //           v
             // 0   0 0 0 0 0 0 0 0
@@ -87,7 +87,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandBoven_ReturnTrue()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 3] = Color.White;
             spel.Board[2, 3] = Color.White;
             //     0 1 2 3 4 5 6 7
@@ -111,7 +111,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandBoven_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 3] = Color.White;
             spel.Board[2, 3] = Color.White;
             //     0 1 2 3 4 5 6 7
@@ -136,7 +136,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandBovenEnTotBenedenReedsGevuld_ReturnTrue()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 3] = Color.White;
             spel.Board[2, 3] = Color.White;
             spel.Board[3, 3] = Color.White;
@@ -166,7 +166,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandBovenEnTotBenedenReedsGevuld_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 3] = Color.White;
             spel.Board[2, 3] = Color.White;
             spel.Board[3, 3] = Color.White;
@@ -201,7 +201,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandRechts_ReturnTrue()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[4, 5] = Color.White;
             spel.Board[4, 6] = Color.White;
             //     0 1 2 3 4 5 6 7
@@ -225,7 +225,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandRechts_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[4, 5] = Color.White;
             spel.Board[4, 6] = Color.White;
             //     0 1 2 3 4 5 6 7
@@ -250,7 +250,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandRechtsEnTotLinksReedsGevuld_ReturnTrue()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[4, 0] = Color.Black;
             spel.Board[4, 1] = Color.White;
             spel.Board[4, 2] = Color.White;
@@ -280,7 +280,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandRechtsEnTotLinksReedsGevuld_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[4, 0] = Color.Black;
             spel.Board[4, 1] = Color.White;
             spel.Board[4, 2] = Color.White;
@@ -325,7 +325,7 @@ namespace Tests
         public void ZetMogelijk_StartSituatieZet22Wit_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             //     0 1 2 3 4 5 6 7
             //         v
             // 0   0 0 0 0 0 0 0 0
@@ -347,7 +347,7 @@ namespace Tests
         public void ZetMogelijk_StartSituatieZet22Zwart_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             //     0 1 2 3 4 5 6 7
             //         v
             // 0   0 0 0 0 0 0 0 0
@@ -371,7 +371,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandRechtsBoven_ReturnTrue()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 5] = Color.Black;
             spel.Board[1, 6] = Color.Black;
             spel.Board[5, 2] = Color.White;
@@ -396,7 +396,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandRechtsBoven_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 5] = Color.Black;
             spel.Board[1, 6] = Color.Black;
             spel.Board[5, 2] = Color.White;
@@ -421,7 +421,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandRechtsOnder_ReturnTrue()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 2] = Color.Black;
             spel.Board[5, 5] = Color.White;
             spel.Board[6, 6] = Color.White;
@@ -446,7 +446,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandRechtsOnder_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 2] = Color.Black;
             spel.Board[5, 5] = Color.White;
             spel.Board[6, 6] = Color.White;
@@ -471,7 +471,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandLinksBoven_ReturnTrue()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 1] = Color.White;
             spel.Board[2, 2] = Color.White;
             spel.Board[5, 5] = Color.Black;
@@ -496,7 +496,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandLinksBoven_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 1] = Color.White;
             spel.Board[2, 2] = Color.White;
             spel.Board[5, 5] = Color.Black;
@@ -521,7 +521,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandLinksOnder_ReturnTrue()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 5] = Color.White;
             spel.Board[5, 2] = Color.Black;
             spel.Board[6, 1] = Color.Black;
@@ -546,7 +546,7 @@ namespace Tests
         public void ZetMogelijk_ZetAanDeRandLinksOnder_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 5] = Color.White;
             spel.Board[5, 2] = Color.Black;
             spel.Board[6, 1] = Color.Black;
@@ -573,7 +573,7 @@ namespace Tests
         public void DoeZet_BuitenBord_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             //     0 1 2 3 4 5 6 7
             //                     v
             // 0   0 0 0 0 0 0 0 0
@@ -604,7 +604,7 @@ namespace Tests
         public void DoeZet_StartSituatieZet23Zwart_ZetCorrectUitgevoerd()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             //     0 1 2 3 4 5 6 7
             //           v
             // 0   0 0 0 0 0 0 0 0
@@ -631,7 +631,7 @@ namespace Tests
         public void DoeZet_StartSituatieZet23Wit_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             //     0 1 2 3 4 5 6 7
             //           v
             // 0   0 0 0 0 0 0 0 0
@@ -664,7 +664,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandBoven_ZetCorrectUitgevoerd()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 3] = Color.White;
             spel.Board[2, 3] = Color.White;
             //     0 1 2 3 4 5 6 7
@@ -694,7 +694,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandBoven_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 3] = Color.White;
             spel.Board[2, 3] = Color.White;
             //     0 1 2 3 4 5 6 7
@@ -730,7 +730,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandBovenEnTotBenedenReedsGevuld_ZetCorrectUitgevoerd()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 3] = Color.White;
             spel.Board[2, 3] = Color.White;
             spel.Board[3, 3] = Color.White;
@@ -768,7 +768,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandBovenEnTotBenedenReedsGevuld_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 3] = Color.White;
             spel.Board[2, 3] = Color.White;
             spel.Board[3, 3] = Color.White;
@@ -807,7 +807,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandRechts_ZetCorrectUitgevoerd()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[4, 5] = Color.White;
             spel.Board[4, 6] = Color.White;
             //     0 1 2 3 4 5 6 7
@@ -835,7 +835,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandRechts_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[4, 5] = Color.White;
             spel.Board[4, 6] = Color.White;
             //     0 1 2 3 4 5 6 7
@@ -871,7 +871,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandRechtsEnTotLinksReedsGevuld_ZetCorrectUitgevoerd()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[4, 0] = Color.Black;
             spel.Board[4, 1] = Color.White;
             spel.Board[4, 2] = Color.White;
@@ -908,7 +908,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandRechtsEnTotLinksReedsGevuld_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[4, 0] = Color.Black;
             spel.Board[4, 1] = Color.White;
             spel.Board[4, 2] = Color.White;
@@ -967,7 +967,7 @@ namespace Tests
         public void DoeZet_StartSituatieZet22Wit_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             //     0 1 2 3 4 5 6 7
             //         v
             // 0   0 0 0 0 0 0 0 0
@@ -997,7 +997,7 @@ namespace Tests
         public void DoeZet_StartSituatieZet22Zwart_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             //     0 1 2 3 4 5 6 7
             //         v
             // 0   0 0 0 0 0 0 0 0
@@ -1028,7 +1028,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandRechtsBoven_ZetCorrectUitgevoerd()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 5] = Color.Black;
             spel.Board[1, 6] = Color.Black;
             spel.Board[5, 2] = Color.White;
@@ -1058,7 +1058,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandRechtsBoven_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 5] = Color.Black;
             spel.Board[1, 6] = Color.Black;
             spel.Board[5, 2] = Color.White;
@@ -1095,7 +1095,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandRechtsOnder_ZetCorrectUitgevoerd()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 2] = Color.Black;
             spel.Board[5, 5] = Color.White;
             spel.Board[6, 6] = Color.White;
@@ -1125,7 +1125,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandRechtsOnder_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 2] = Color.Black;
             spel.Board[5, 5] = Color.White;
             spel.Board[6, 6] = Color.White;
@@ -1161,7 +1161,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandLinksBoven_ZetCorrectUitgevoerd()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 1] = Color.White;
             spel.Board[2, 2] = Color.White;
             spel.Board[5, 5] = Color.Black;
@@ -1191,7 +1191,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandLinksBoven_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[1, 1] = Color.White;
             spel.Board[2, 2] = Color.White;
             spel.Board[5, 5] = Color.Black;
@@ -1230,7 +1230,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandLinksOnder_ZetCorrectUitgevoerd()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 5] = Color.White;
             spel.Board[5, 2] = Color.Black;
             spel.Board[6, 1] = Color.Black;
@@ -1260,7 +1260,7 @@ namespace Tests
         public void DoeZet_ZetAanDeRandLinksOnder_Exception()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 5] = Color.White;
             spel.Board[5, 2] = Color.Black;
             spel.Board[6, 1] = Color.Black;
@@ -1298,7 +1298,7 @@ namespace Tests
         public void Pas_ZwartAanZetGeenZetMogelijk_ReturnTrueEnWisselBeurt()
         {
             // Arrange  (zowel wit als zwart kunnen niet meer)
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[0, 0] = Color.White;
             spel.Board[0, 1] = Color.White;
             spel.Board[0, 2] = Color.White;
@@ -1385,7 +1385,7 @@ namespace Tests
         public void Pas_WitAanZetGeenZetMogelijk_ReturnTrueEnWisselBeurt()
         {
             // Arrange  (zowel wit als zwart kunnen niet meer)
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[0, 0] = Color.White;
             spel.Board[0, 1] = Color.White;
             spel.Board[0, 2] = Color.White;
@@ -1472,7 +1472,7 @@ namespace Tests
         public void Afgelopen_GeenZetMogelijk_ReturnTrue()
         {
             // Arrange  (zowel wit als zwart kunnen niet meer)
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[0, 0] = Color.White;
             spel.Board[0, 1] = Color.White;
             spel.Board[0, 2] = Color.White;
@@ -1559,7 +1559,7 @@ namespace Tests
         public void Afgelopen_GeenZetMogelijkAllesBezet_ReturnTrue()
         {
             // Arrange  (zowel wit als zwart kunnen niet meer)
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[0, 0] = Color.White;
             spel.Board[0, 1] = Color.White;
             spel.Board[0, 2] = Color.White;
@@ -1646,7 +1646,7 @@ namespace Tests
         public void Afgelopen_WelZetMogelijk_ReturnFalse()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             //     0 1 2 3 4 5 6 7
             //
             // 0   0 0 0 0 0 0 0 0
@@ -1671,7 +1671,7 @@ namespace Tests
         public void OverwegendeKleur_Gelijk_ReturnKleurGeen()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             //     0 1 2 3 4 5 6 7
             //
             // 0   0 0 0 0 0 0 0 0
@@ -1693,7 +1693,7 @@ namespace Tests
         public void OverwegendeKleur_Zwart_ReturnKleurZwart()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 3] = Color.Black;
             spel.Board[3, 3] = Color.Black;
             spel.Board[4, 3] = Color.Black;
@@ -1721,7 +1721,7 @@ namespace Tests
         public void OverwegendeKleur_Wit_ReturnKleurWit()
         {
             // Arrange
-            Spel spel = new Spel();
+            Game spel = new Game();
             spel.Board[2, 3] = Color.White;
             spel.Board[3, 3] = Color.White;
             spel.Board[4, 3] = Color.White;

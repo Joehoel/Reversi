@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using API.Model;
 
-public interface ISpelRepository
+public interface IGameRepository
 {
-    void AddSpel(Spel spel);
+    void AddGame(Game game);
 
-    List<Spel> GetSpellen();
+    List<Game> GetGames();
 
-    Spel GetSpel(string spelToken);
+    Game GetGame(string gameToken);
 }

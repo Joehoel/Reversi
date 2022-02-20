@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace API.Model
 {
-    public class Spel : IGame
+    public class Game : IGame
     {
         private const int boardSize = 8;
 
@@ -46,7 +42,7 @@ namespace API.Model
         }
 
         [NotMapped] [JsonIgnore] public Color TurnColor { get; set; }
-        public Spel()
+        public Game()
         {
             Token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
             Token = Token.Replace("/", "q");    // slash mijden ivm het opvragen van een spel via een api obv het token
