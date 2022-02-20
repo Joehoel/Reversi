@@ -1,11 +1,8 @@
-using System.Diagnostics;
-using API.Model;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using API.Model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
@@ -26,7 +23,7 @@ namespace API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Spel>> GetSpelOmschrijvingenVanSpellenMetWachtendeSpeler()
         {
-            return _repository.GetSpellen().Where(spel => string.IsNullOrEmpty(spel.Speler2Token)).ToList();
+            return _repository.GetSpellen().Where(spel => string.IsNullOrEmpty(spel.Player2Token)).ToList();
 
         }
 
@@ -42,7 +39,7 @@ namespace API.Controllers
         [HttpGet("speler/{spelerToken}")]
         public ActionResult<Spel> GetSpelBySpelerToken(string spelerToken)
         {
-            var spel = _repository.GetSpellen().Where(spel => spel.Speler1Token == spelerToken || spel.Speler2Token == spelerToken);
+            var spel = _repository.GetSpellen().Where(spel => spel.Player1Token == spelerToken || spel.Player2Token == spelerToken);
             if (spel == null) return NotFound();
             return Ok(spel);
         }
@@ -64,8 +61,8 @@ namespace API.Controllers
             var spel = new Spel();
 
             spel.Token = Guid.NewGuid().ToString();
-            spel.Speler1Token = spelInfo.Token;
-            spel.Omschrijving = spelInfo.Omschrijving;
+            spel.Player1Token = spelInfo.Token;
+            spel.Description = spelInfo.Omschrijving;
 
             _repository.AddSpel(spel);
 
@@ -80,7 +77,7 @@ namespace API.Controllers
             var spel = _repository.GetSpel(token);
             if (spel == null) return NotFound();
 
-            return Ok(spel.AandeBeurt);
+            return Ok(spel.TurnColor);
         }
 
         public class GameData
@@ -105,23 +102,23 @@ namespace API.Controllers
             var spel = _repository.GetSpel(data.Token);
             if (spel == null) return NotFound();
 
-            if ((spel.AandeBeurt == Kleur.Wit ? spel.Speler1Token : spel.Speler2Token) != data.SpelerToken)
+            if ((spel.TurnColor == Color.White ? spel.Player1Token : spel.Player2Token) != data.SpelerToken)
             {
                 return Unauthorized("Niet jou beurt");
             }
 
-            if (!spel.ZetMogelijk(data.Rij, data.Kolom))
+            if (!spel.TurnPossible(data.Rij, data.Kolom))
             {
                 return BadRequest("Niet mogelijk");
             }
 
             if (data.Pas)
             {
-                spel.Pas();
+                spel.Pass();
                 return Ok(spel);
             }
 
-            spel.DoeZet(data.Rij, data.Kolom);
+            spel.Move(data.Rij, data.Kolom);
 
             return Ok(spel);
         }
@@ -133,7 +130,7 @@ namespace API.Controllers
             var spel = _repository.GetSpel(data.Token);
             if (spel == null) return NotFound();
 
-            if ((spel.AandeBeurt == Kleur.Wit ? spel.Speler1Token : spel.Speler2Token) != data.SpelerToken)
+            if ((spel.TurnColor == Color.White ? spel.Player1Token : spel.Player2Token) != data.SpelerToken)
             {
                 return Unauthorized("Niet jou beurt");
             }

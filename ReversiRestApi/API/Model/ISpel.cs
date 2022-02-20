@@ -1,34 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace API.Model
+﻿namespace API.Model
 {
-    public enum Kleur { Geen, Wit, Zwart };
+    public enum Color { None, White, Black };
 
-    public interface ISpel
+    public interface IGame
     {
         int ID { get; set; }
-        string Omschrijving { get; set; }
+        string Description { get; set; }
 
         //het unieke token van het spel
         string Token { get; set; }
-        string Speler1Token { get; set; }
-        string Speler2Token { get; set; }
+        string Player1Token { get; set; }
+        string Player2Token { get; set; }
 
-        Kleur[,] Bord { get; set; }
-        Kleur AandeBeurt { get; set; }
-        void Pas();
-        bool Afgelopen();
+        Color[,] Board { get; set; }
+        Color TurnColor { get; set; }
+        void Pass();
+        bool GameOver();
 
         //welke kleur het meest voorkomend op het speelbord
-        Kleur OverwegendeKleur();
+        Color DominantColor();
 
         //controle of op een bepaalde positie een zet mogelijk is
-        bool ZetMogelijk(int rijZet, int kolomZet);
-        void DoeZet(int rijZet, int kolomZet);
+        bool TurnPossible(int row, int column);
+        void Move(int row, int column);
     }
 }
