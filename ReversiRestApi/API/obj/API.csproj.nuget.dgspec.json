@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj": {}
+    "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj": {
+    "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj",
+        "projectUniqueName": "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj",
+        "projectPath": "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj",
         "packagesPath": "C:\\Users\\Joel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\obj\\",
+        "outputPath": "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
