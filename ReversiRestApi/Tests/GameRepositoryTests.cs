@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using API.Model;
+using API.Repositories;
 using NUnit.Framework;
 
 
 [TestFixture]
-public class SpelRepositoryTest
+public class GameRepositoryTest
 {
     [Test]
     public void AddSpel_Spel_SpelAdded()

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "fe17123f-1932-4f61-b81a-b862f2262a80": {
+      "ProjectGuid": "fe17123f-1932-4f61-b81a-b862f2262a80",
+      "DisplayName": "ReversiMvcApp",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

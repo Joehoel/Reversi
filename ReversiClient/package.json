@@ -1,0 +1,22 @@
+{
+    "name": "reversi",
+    "version": "1.0.0",
+    "description": "Reversi game for Windesheim project",
+    "main": "src/js/script.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "build": "gulp"
+    },
+    "author": "Joehoel",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.17.5",
+        "@babel/preset-env": "^7.16.11",
+        "gulp": "^4.0.2",
+        "gulp-babel": "^8.0.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-order": "^1.2.0"
+    }
+}

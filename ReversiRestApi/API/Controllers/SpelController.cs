@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using API.Model;
+using API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -9,16 +10,17 @@ namespace API.Controllers
 
     [Route("api/game")]
     [ApiController]
-    public class SpelController : ControllerBase
+    public class GameController : ControllerBase
     {
         private readonly IGameRepository _repository;
 
-        public SpelController(IGameRepository repository)
+        public GameController(IGameRepository repository)
         {
             _repository = repository;
         }
 
 
+        // GET /api/game
         [HttpGet]
         public ActionResult<IEnumerable<Game>> GetSpelOmschrijvingenVanSpellenMetWachtendeSpeler()
         {
@@ -26,6 +28,7 @@ namespace API.Controllers
 
         }
 
+        // GET /api/game/{token}
         [HttpGet("{token}")]
         public ActionResult<Game> GetSpelByToken(string token)
         {
@@ -34,7 +37,7 @@ namespace API.Controllers
             return Ok(spel);
         }
 
-
+        // GET /api/game/player/{playerToken}
         [HttpGet("player/{playerToken}")]
         public ActionResult<Game> GetSpelBySpelerToken(string playerToken)
         {
@@ -54,6 +57,8 @@ namespace API.Controllers
             public string Description { get; set; }
             public string Token { get; set; }
         }
+
+        // POST /api/game
         [HttpPost]
         public ActionResult<GameInfo> AddGame([FromBody] GameInfo gameInfo)
         {
@@ -70,7 +75,8 @@ namespace API.Controllers
 
 
 
-        [HttpGet("beurt/{token}")]
+        // GET /api/game/turn/{token}
+        [HttpGet("turn/{token}")]
         public ActionResult<int> GetTurnColor(string token)
         {
             var game = _repository.GetGame(token);
@@ -95,6 +101,7 @@ namespace API.Controllers
 
         }
 
+        // PUT /api/game/move
         [HttpPut("move")]
         public ActionResult<Game> Move([FromBody] MoveData data)
         {
@@ -125,6 +132,7 @@ namespace API.Controllers
         }
 
 
+        // PUT /api/game/concede
         [HttpPut("concede")]
         public ActionResult<Game> Concede([FromBody] GameData data)
         {
