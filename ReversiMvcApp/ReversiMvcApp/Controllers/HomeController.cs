@@ -1,29 +1,49 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using ReversiMvcApp.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic.FileIO;
+using ReversiMvcApp.Data;
+using ReversiMvcApp.Models;
 
 namespace ReversiMvcApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ReversiDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ReversiDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            ClaimsPrincipal currentUser = this.User;
-            var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentUserID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            Debug.WriteLine(currentUserID);
+            if (currentUserID != null)
+            {
+                Player player = _context.Players.FirstOrDefault(p => p.Guid == currentUserID);
+                
+                if (player == null)
+                {
+                    player = new Player()
+                    {
+                        Guid = currentUserID,
+                        Name = User.Identity.Name,
+                    };
+                    _context.Add<Player>(player);
+                    _context.SaveChanges();
+                }
+            }
 
             return View();
         }

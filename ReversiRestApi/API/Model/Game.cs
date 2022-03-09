@@ -24,7 +24,7 @@ namespace API.Model
         public string Player1Token { get; set; }
         public string Player2Token { get; set; }
 
-        [NotMapped] [JsonIgnore] private Color[,] _board;
+        [NotMapped][JsonIgnore] private Color[,] _board;
 
 
         [NotMapped]
@@ -41,7 +41,7 @@ namespace API.Model
             }
         }
 
-        [NotMapped] [JsonIgnore] public Color TurnColor { get; set; }
+        [NotMapped][JsonIgnore] public Color TurnColor { get; set; }
         public Game()
         {
             Token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
@@ -166,10 +166,10 @@ namespace API.Model
             return TurnColor == Color.White ? TurnColor = Color.Black : TurnColor = Color.White;
         }
 
-        private static bool PositionWithinBounds(int rij, int kolom)
+        private static bool PositionWithinBounds(int row, int column)
         {
-            return (rij >= 0 && rij < boardSize &&
-                    kolom >= 0 && kolom < boardSize);
+            return (row >= 0 && row < boardSize &&
+                    column >= 0 && column < boardSize);
         }
 
         private bool PutOnBoardAndFree(int row, int column)

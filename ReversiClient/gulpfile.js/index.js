@@ -15,7 +15,8 @@ task("js", function () {
                 presets: ["@babel/preset-env"],
             })
         )
-        .pipe(dest("./dist/js"));
+        .pipe(dest("./dist/js"))
+        .pipe(config.localServerProjectPath + "/js");
 });
 
 // module.exports = {

@@ -26,6 +26,14 @@ class FeedbackWidget {
     }
 
     /**
+     * Hide the widget
+     * @memberof FeedbackWidget
+     */
+    hide() {
+        this.element.hide();
+    }
+
+    /**
      * Show an success alert
      * @param {string} message
      * @memberof FeedbackWidget

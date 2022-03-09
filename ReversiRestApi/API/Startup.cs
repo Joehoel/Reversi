@@ -24,7 +24,7 @@ namespace API
         {
             services.AddDbContext<DatabaseContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection") );
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddControllers();
             services.AddScoped<IGameRepository, GameAccessLayer>();

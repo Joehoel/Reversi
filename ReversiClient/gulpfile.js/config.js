@@ -1,7 +1,6 @@
 module.exports = {
-    localServerProjectPath: "<C:/...pad_naar_server_project_voor_client_bestanden>",
+    localServerProjectPath: "../../ReversiMvcApp/ReversiMvcApp/wwwroot",
     files: {
         js: ["js/**/*.js", "js/*.js"],
     },
-    voornaam: "Joel",
 };
