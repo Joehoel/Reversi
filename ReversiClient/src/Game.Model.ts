@@ -1,24 +1,45 @@
-Game.Model = (function () {
-    console.log("'Game.Model' loaded!");
+import data from "./Game.Data";
 
-    const config = {};
+class Model {
+    private config = {};
 
-    const getGameState = async token => {
-        const res = await Game.Data.get(`api/spel/beurt/${token}`);
+    constructor() {
+        console.log("'Game.Model' loaded!");
+    }
+
+    public async getGameState(token: string) {
+        const res: number = await data.get(`api/spel/beurt/${token}`);
 
         if (![0, 1, 2].includes(res)) {
             throw new Error(`${res} is niet gelijk aan 1, 2 of 3`);
         }
 
         return res;
-    };
+    }
+}
+export default new Model();
 
-    const privateInit = function () {
-        console.log("private init");
-    };
+// Game.Model = (function () {
+//     console.log("'Game.Model' loaded!");
 
-    return {
-        init: privateInit,
-        getGameState,
-    };
-})();
+//     const config = {};
+
+//     const getGameState = async token => {
+//         const res = await Game.Data.get(`api/spel/beurt/${token}`);
+
+//         if (![0, 1, 2].includes(res)) {
+//             throw new Error(`${res} is niet gelijk aan 1, 2 of 3`);
+//         }
+
+//         return res;
+//     };
+
+//     const privateInit = function () {
+//         console.log("private init");
+//     };
+
+//     return {
+//         init: privateInit,
+//         getGameState,
+//     };
+// })();

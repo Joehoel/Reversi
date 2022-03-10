@@ -1,6 +1,6 @@
 type Environment = "development" | "production";
 
-export default class Data {
+class Data {
     private config = {
         api: "3bbb1ccb121511bbda62ec2b35e9a606",
         url: "http://api.openweathermap.org/data/2.5",
@@ -25,9 +25,7 @@ export default class Data {
     }
 
     private async getMockData(url: string) {
-        const mockData = this.config.mock.find((route: typeof this.config.mock[0]) =>
-            url.includes(route.url)
-        )?.data;
+        const mockData = this.config.mock.find(route => url.includes(route.url))?.data;
 
         return new Promise((resolve, reject) => {
             if (typeof mockData === "undefined") reject(`Geen mock data beschikbaar voor ${url}`);
@@ -35,9 +33,9 @@ export default class Data {
         });
     }
 
-    private async get(url: string) {
+    public async get(url: string) {
         try {
-            if (this.state.environment == "development") {
+            if (this.state.environment === "development") {
                 return this.getMockData(url);
             }
 
@@ -50,7 +48,7 @@ export default class Data {
         }
     }
 }
-
+export default new Data({ environment: "development" });
 // Game.Data = (function () {
 //     console.log("'Game.Data' loaded!");
 

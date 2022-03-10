@@ -1,13 +1,23 @@
-Game.Reversi = (function () {
-    console.log("'Game.Reversi' loaded!");
+class Reversi {
+    private config = {};
 
-    const config = {};
+    constructor() {
+        console.log("'Game.Reversi' loaded!");
+    }
+}
 
-    const privateInit = function () {
-        console.log("private init");
-    };
+export default new Reversi();
 
-    return {
-        init: privateInit,
-    };
-})();
+// Game.Reversi = (function () {
+//     console.log("'Game.Reversi' loaded!");
+
+//     const config = {};
+
+//     const privateInit = function () {
+//         console.log("private init");
+//     };
+
+//     return {
+//         init: privateInit,
+//     };
+// })();
