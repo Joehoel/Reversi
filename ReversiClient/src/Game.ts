@@ -1,16 +1,9 @@
-import Module from "./Module";
-
-export default class Game extends Module {
-    // private config: Record<string, any> = {};
+export default class Game {
+    private config: Record<string, any> = {};
     private state: Record<string, any> = { gameState: undefined };
 
-    constructor(url: string) {
-        super();
+    constructor(url: string, callback: () => void) {
         this.config.api = url;
-    }
-
-    public static init(callback: () => void) {
-        // setInterval(/)
         callback();
     }
 }
