@@ -1,4 +1,21 @@
-const Game = (function (url) {
+import Module from "./Module";
+
+export default class Game extends Module {
+    // private config: Record<string, any> = {};
+    private state: Record<string, any> = { gameState: undefined };
+
+    constructor(url: string) {
+        super();
+        this.config.api = url;
+    }
+
+    public static init(callback: () => void) {
+        // setInterval(/)
+        callback();
+    }
+}
+
+const OldGame = (function (url) {
     const config = {
         api: url,
     };

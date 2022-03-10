@@ -1,3 +1,6 @@
+import FeedbackWidget from "./FeedbackWidget";
+import Game from "./Game";
+
 const widget = new FeedbackWidget("#widget");
 
 widget.history();
