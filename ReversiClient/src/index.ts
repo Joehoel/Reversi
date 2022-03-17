@@ -27,16 +27,15 @@ rows.forEach(row => {
 
 for (const [rowNum, row] of grid.entries()) {
     for (const [colNum, col] of row.entries()) {
-        col.addEventListener("click", () => connection.invoke("Move", +rowNum, +colNum, "black"));
+        // TODO: Make this work
+        // col.addEventListener("click", () => );
     }
 }
 
 const row = Array.from({ length: 8 }).map(() => 0);
 const cols = Array.from({ length: 8 }).map(() => row.slice(0));
 
-const board = cols as number[][];
-
-const connection = new HubConnectionBuilder().withUrl("/hub").build();
+const board = cols as TBoard;
 
 type TBoard = Array<Array<0 | 1 | 2>>;
 
@@ -58,44 +57,60 @@ function showFiche(row: number, column: number, color: "white" | "black") {
     board[row - 1][column - 1] = num;
 }
 
-async function main() {
-    await connection.start();
+const token = window.location.href.split("/").at(-1);
 
-    const token = window.location.href.split("/").at(-1);
-
-    connection.on("move", (row, col, color) => {
-        showFiche(row, col, color);
-        console.log(color);
-        // Reversi.getInstance();
-    });
-
+async function updateBoard() {
     const response = await fetch(`https://localhost:6001/api/game/${token}`);
-    const {} = (await response.json()) as IGame;
 
+    if (response.status === 502) {
+        await updateBoard();
+    } else if (response.status != 200) {
+        console.error(`Something went wrong: ${response.statusText}`);
+
+        await new Promise(resolve => setTimeout(resolve, 10000));
+        await updateBoard();
+    } else {
+        const game = (await response.json()) as IGame;
+        const board = game.board;
+
+        board.forEach((row, rowIndex) => {
+            row.forEach((value, colIndex) => {
+                Reversi.getInstance().showFiche(
+                    rowIndex,
+                    colIndex,
+                    value === 1 ? "white" : "black"
+                );
+            });
+        });
+    }
+}
+
+async function main() {
+    await updateBoard();
+    // await connection.start();
+    // connection.on("move", (row, col, color) => {
+    //     showFiche(row, col, color);
+    //     console.log(color);
+    //     // Reversi.getInstance();
+    // });
     // board.forEach((row, rowIndex) => {
     //     row.forEach((value, colIndex) => {
     //         Reversi.getInstance().showFiche(rowIndex, colIndex, value === 1 ? "white" : "black");
     //     });
     // });
-
     // connection.invoke("SendMessage", "Joel", "Hallo");
-
     // const widget = new FeedbackWidget("#widget");
-
     // Game.getInstance().init("/api/game", async api => {
     // Model.getInstance().getGameState("W1eAb01Hn0q4gQweGRFRng==").then(console.log);
     // const response = await fetch(`https://localhost:6001${api}/${token}`);
     // const { id } = (await response.json()) as IGame;
     // });
-
     // widget.history();
     // widget.danger("Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, odio.");
     // widget.hide();
-
     // Game.init(() => {
     //     Game.Model.getGameState("W1eAb01Hn0q4gQweGRFRng==").then(console.log);
     // });
-
     // Game.Data.init({ environment: "development" });
 }
 
