@@ -1,14 +1,26 @@
-import data from "./Game.Data";
+import Data from "./Game.Data";
 
-class Model {
+export default class Model {
+    private static instance: Model;
+
     private config = {};
 
-    constructor() {
+    private constructor() {
         console.log("'Game.Model' loaded!");
     }
 
+    public static getInstance(): Model {
+        if (!Model.instance) {
+            Model.instance = new Model();
+        }
+
+        return Model.instance;
+    }
+
     public async getGameState(token: string) {
-        const res: number = await data.get(`api/spel/beurt/${token}`);
+        Data.getInstance().init({ environment: "production" });
+        // const res = Data.getInstance().get();
+        const res = 1;
 
         if (![0, 1, 2].includes(res)) {
             throw new Error(`${res} is niet gelijk aan 1, 2 of 3`);
@@ -17,7 +29,6 @@ class Model {
         return res;
     }
 }
-export default new Model();
 
 // Game.Model = (function () {
 //     console.log("'Game.Model' loaded!");

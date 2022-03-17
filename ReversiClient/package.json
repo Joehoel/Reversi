@@ -2,7 +2,7 @@
     "name": "reversi",
     "version": "1.0.0",
     "description": "Reversi game for Windesheim project",
-    "main": "src/js/script.js",
+    "main": "src/index.ts",
     "directories": {
         "test": "tests"
     },
@@ -20,7 +20,11 @@
         "gulp-babel": "^8.0.0",
         "gulp-concat": "^2.6.1",
         "gulp-order": "^1.2.0",
+        "sass": "^1.49.9",
         "typescript": "^4.6.2",
         "vite": "^2.8.6"
+    },
+    "dependencies": {
+        "@microsoft/signalr": "^6.0.3"
     }
 }

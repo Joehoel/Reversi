@@ -41,8 +41,15 @@ namespace API.Repositories
             return Games.Find(game => game.Token == gameToken);
         }
 
-
-        // ...
-
+        public bool DeleteGame(string gameToken)
+        {
+            var game = GetGame(gameToken);
+            if (game != null)
+            {
+                Games.Remove(game);
+                return true;
+            }
+            return false;
+        }
     }
 }

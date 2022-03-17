@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace API.Model
 {
@@ -24,11 +26,9 @@ namespace API.Model
         public string Player1Token { get; set; }
         public string Player2Token { get; set; }
 
-        [NotMapped][JsonIgnore] private Color[,] _board;
+        private Color[,] _board;
 
 
-        [NotMapped]
-        [JsonIgnore]
         public Color[,] Board
         {
             get
@@ -40,8 +40,8 @@ namespace API.Model
                 _board = value;
             }
         }
+        public Color TurnColor { get; set; }
 
-        [NotMapped][JsonIgnore] public Color TurnColor { get; set; }
         public Game()
         {
             Token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
@@ -237,5 +237,8 @@ namespace API.Model
             }
             return stonesTurned;
         }
+
+
     }
+
 }

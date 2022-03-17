@@ -26,11 +26,18 @@ namespace API
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddScoped<IGameRepository, GameAccessLayer>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+            });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "Reversi", builder =>
+                {
+                    builder.WithOrigins("https://localhost:5001");
+                });
             });
         }
 
@@ -49,6 +56,7 @@ namespace API
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseCors("Reversi");
 
             app.UseEndpoints(endpoints =>
             {

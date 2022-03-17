@@ -39,23 +39,17 @@ namespace API.Controllers
 
         // GET /api/game/player/{playerToken}
         [HttpGet("player/{playerToken}")]
-        public ActionResult<Game> GetSpelBySpelerToken(string playerToken)
+        public ActionResult<Game> GameGameByPlayerToken(string playerToken)
         {
-            var game = _repository.GetGames().Where(game => game.Player1Token == playerToken || game.Player2Token == playerToken);
+            var game = _repository.GetGames().Where(game => game.Player1Token == playerToken || game.Player2Token == playerToken).FirstOrDefault();
             if (game == null) return NotFound();
             return Ok(game);
         }
-        // [HttpGet("{spelerToken}")]
-        // public ActionResult<Spel> GetSpelBySpelerToken(string spelerToken)
-        // {
-        //     var spel = _repository.GetSpelFromSpeler(spelerToken);
-        //     if (spel == null) return NotFound();
-        //     return Ok(spel);
-        // }
+
         public class GameInfo
         {
             public string Description { get; set; }
-            public string Token { get; set; }
+            public string Player1Token { get; set; }
         }
 
         // POST /api/game
@@ -65,12 +59,21 @@ namespace API.Controllers
             var game = new Game();
 
             game.Token = Guid.NewGuid().ToString();
-            game.Player1Token = gameInfo.Token;
+            game.Player1Token = gameInfo.Player1Token;
             game.Description = gameInfo.Description;
 
             _repository.AddGame(game);
 
             return Created(nameof(AddGame), game);
+        }
+
+        // DELETE /api/game/{token}
+        [HttpDelete("{token}")]
+        public ActionResult DeleteGame(string token)
+        {
+            var game = _repository.DeleteGame(token);
+            if (!game) return NotFound();
+            return Ok();
         }
 
 

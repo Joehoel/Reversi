@@ -21,12 +21,34 @@
         <script defer src="../src/js/Game.Data.js"></script>
         <script defer src="../src/js/Game.Reversi.js"></script>
         <script defer src="../src/js/script.js"></script> -->
-        <script type="module" src="/src/index.ts"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+            crossorigin="anonymous"
+        />
+        
+        
         <title>Reversi</title>
+      <script type="module" crossorigin src="/js/index.js"></script>
+      <link rel="modulepreload" href="/js/vendor.js">
+      <link rel="stylesheet" href="/css/index.css">
     </head>
     <body>
         <div class="container">
-            <div id="widget" class="alert" role="alert"></div>
+            <article id="widget" class="widget alert" role="alert">
+                <button class="widget__close btn btn-close"></button>
+
+                <div class="widget__content">
+                    <!-- Icon goes here -->
+                    <span class="widget__text"></span>
+                </div>
+
+                <footer class="widget__buttons">
+                    <button class="widget__buttons--agree btn btn-success">Akkoord</button>
+                    <button class="widget__buttons--deny btn btn-danger">Weigeren</button>
+                </footer>
+            </article>
         </div>
     </body>
 </html>

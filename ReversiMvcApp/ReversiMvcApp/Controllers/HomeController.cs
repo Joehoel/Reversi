@@ -9,30 +9,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.FileIO;
 using ReversiMvcApp.Data;
+using ReversiMvcApp.Lib;
 using ReversiMvcApp.Models;
+using ReversiMvcApp.Services;
 
 namespace ReversiMvcApp.Controllers
 {
     public class HomeController : Controller
     {
+
         private readonly ILogger<HomeController> _logger;
         private readonly ReversiDbContext _context;
+        private readonly IService<Game> _service;
 
-        public HomeController(ILogger<HomeController> logger, ReversiDbContext context)
+        public HomeController(ILogger<HomeController> logger, ReversiDbContext context, IService<Game> service)
         {
             _logger = logger;
             _context = context;
+            _service = service;
         }
 
-        public IActionResult Index()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
             var currentUserID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            Debug.WriteLine(currentUserID);
             if (currentUserID != null)
             {
                 Player player = _context.Players.FirstOrDefault(p => p.Guid == currentUserID);
-                
+
                 if (player == null)
                 {
                     player = new Player()
@@ -40,10 +45,17 @@ namespace ReversiMvcApp.Controllers
                         Guid = currentUserID,
                         Name = User.Identity.Name,
                     };
-                    _context.Add<Player>(player);
+                    _context.Add(player);
                     _context.SaveChanges();
                 }
             }
+
+            //var game = await _service.GetAsync(currentUserID, "/api/game/player");
+
+            //if (game.Token != null)
+            //{
+            //    return RedirectToAction("Details", "Games", new { id = game.Token });
+            //}
 
             return View();
         }

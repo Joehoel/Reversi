@@ -5,17 +5,22 @@ interface Message {
 
 export default class FeedbackWidget<T extends HTMLElement = HTMLDivElement> {
     private element: T;
+    private selector: string;
     private key: string = "feedback_widget";
 
     /**
      * Creates an instance of FeedbackWidget.
      */
-    constructor(element: string) {
-        if (!element) {
+    constructor(selector: string) {
+        if (!selector) {
             throw new Error("Element is required");
         }
-        this.element = document.querySelector<T>(element)!;
-        this.element.style.display = "none";
+        this.selector = `.${selector.slice(1)}`;
+        this.element = document.querySelector<T>(selector)!;
+
+        const close = document.querySelector<HTMLButtonElement>(`${this.selector}__close`);
+
+        close?.addEventListener("click", () => this.hide());
     }
 
     /**
@@ -23,9 +28,22 @@ export default class FeedbackWidget<T extends HTMLElement = HTMLDivElement> {
      */
     private show({ message, type }: Message) {
         console.log(`Showing widget with message: ${message} and type: ${type}`);
-        this.element.style.display = "block";
+
+        this.element.style.opacity = "1";
+        setTimeout(() => {
+            this.element.style.visibility = "visible";
+        }, 300);
+
         this.element.classList.add(`alert-${type}`);
-        this.element.innerHTML = message;
+        this.element.querySelector(`${this.selector}__text`)!.innerHTML = message;
+
+        const icon = document.createElement("i");
+
+        icon.classList.add(...["fa-solid", `fa-${type === "success" ? "check" : "x"}`]);
+
+        // <i class="fa-solid fa-check"></i>;
+
+        this.element.querySelector(`${this.selector}__content`)!.prepend(icon);
 
         this.log({ message, type });
     }
@@ -34,7 +52,10 @@ export default class FeedbackWidget<T extends HTMLElement = HTMLDivElement> {
      * Hide the widget
      */
     public hide() {
-        this.element.style.display = "none";
+        this.element.style.opacity = "0";
+        setTimeout(() => {
+            this.element.style.visibility = "hidden";
+        }, 300);
     }
 
     /**
@@ -55,9 +76,8 @@ export default class FeedbackWidget<T extends HTMLElement = HTMLDivElement> {
      * Log a message to local storage
      */
     public log(alert: Message) {
-        const logs = JSON.parse(localStorage.getItem(this.key) ?? "") || [];
+        const logs = JSON.parse(localStorage.getItem(this.key)!) || [];
         if (logs.length >= 10) logs.splice(0, 1);
-        console.log({ length: logs.length });
 
         logs.push(alert);
 

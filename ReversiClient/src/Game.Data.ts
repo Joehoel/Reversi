@@ -1,9 +1,11 @@
 type Environment = "development" | "production";
 
-class Data {
+export default class Data {
+    private static instance: Data;
+
     private config = {
         api: "3bbb1ccb121511bbda62ec2b35e9a606",
-        url: "http://api.openweathermap.org/data/2.5",
+        url: "https://localhost:5001/",
         mock: [
             {
                 url: "api/spel/beurt",
@@ -15,13 +17,23 @@ class Data {
         environment: "development",
     };
 
-    constructor({ environment }: { environment: Environment }) {
+    private constructor() {}
+
+    public static getInstance(): Data {
+        if (!Data.instance) {
+            Data.instance = new Data();
+        }
+
+        return Data.instance;
+    }
+
+    public init({ environment }: { environment?: Environment }) {
         if (environment !== "development" && environment !== "production") {
             throw new Error("Environment moet gelijk zijn aan 'production' of 'development'");
         }
         this.state.environment = environment;
 
-        this.get("api/spel/beurt").then(console.log);
+        this.get("api/spel/beurt");
     }
 
     private async getMockData(url: string) {
@@ -48,9 +60,9 @@ class Data {
         }
     }
 }
-export default new Data({ environment: "development" });
-// Game.Data = (function () {
-//     console.log("'Game.Data' loaded!");
+// export const data = new Data({ environment: "development" });
+// Data.Data = (function () {
+//     console.log("'Data.Data' loaded!");
 
 //     const config = {
 //         api: "3bbb1ccb121511bbda62ec2b35e9a606",

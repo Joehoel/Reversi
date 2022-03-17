@@ -1,39 +1,37 @@
-export default class Game {
-    private config: Record<string, any> = {};
-    private state: Record<string, any> = { gameState: undefined };
+import Model from "./Game.Model";
 
-    constructor(url: string, callback: () => void) {
-        this.config.api = url;
-        callback();
-    }
+interface State {
+    gameState?: number;
 }
 
-const OldGame = (function (url) {
-    const config = {
-        api: url,
-    };
+interface Config {
+    api?: string;
+}
 
-    const state = {
-        gameState: undefined,
-    };
+export default class Game {
+    private static instance: Game;
 
-    /**
-     * Callback that gets executed after game initialization
-     * @param {() => void} afterInit
-     */
-    const privateInit = function (afterInit) {
-        setInterval(getCurrentGameState, 2000);
+    private config: Config = {};
+    private state: State = {};
 
-        afterInit();
-    };
+    public static getInstance(): Game {
+        if (!Game.instance) {
+            Game.instance = new Game();
+        }
 
-    const getCurrentGameState = async () => {
-        // TODO: Wat moet hier?
-        state.gameState = await Game.Model.getGameState("W1eAb01Hn0q4gQweGRFRng==");
-        console.log(state.gameState);
-    };
+        return Game.instance;
+    }
 
-    return {
-        init: privateInit,
-    };
-})("/api/cute-cats");
+    public init(url: string, callback: (api: string) => void) {
+        this.config.api = url;
+
+        setInterval(() => callback(this.config.api ?? ""), 2000);
+
+        // callback();
+    }
+
+    private async getCurrentGameState() {
+        this.state.gameState = await Model.getInstance().getGameState("W1eAb01Hn0q4gQweGRFRng==");
+        console.log(this.state.gameState);
+    }
+}

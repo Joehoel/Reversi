@@ -1,83 +1,153 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using ReversiMvcApp.Data;
+using ReversiMvcApp.Models;
 
-namespace ReversiMvcApp.Controllers
+namespace ReversiMvcApp
 {
     public class PlayerController : Controller
     {
-        // GET: PlayerController
-        public ActionResult Index()
+        private readonly ReversiDbContext _context;
+
+        public PlayerController(ReversiDbContext context)
+        {
+            _context = context;l
+        }
+
+        // GET: Player
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Players.ToListAsync());
+        }
+
+        // GET: Player/Details/5
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var player = await _context.Players
+                .FirstOrDefaultAsync(m => m.Guid == id);
+            if (player == null)
+            {
+                return NotFound();
+            }
+
+            return View(player);
+        }
+
+        // GET: Player/Create
+        public IActionResult Create()
         {
             return View();
         }
 
-        // GET: PlayerController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: PlayerController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: PlayerController/Create
+        // POST: Player/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create([Bind("Guid,Name,GamesWon,GamesLost,GamesTied")] Player player)
         {
-            try
+            if (ModelState.IsValid)
             {
+                _context.Add(player);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(player);
         }
 
-        // GET: PlayerController/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Player/Edit/5
+        public async Task<IActionResult> Edit(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var player = await _context.Players.FindAsync(id);
+            if (player == null)
+            {
+                return NotFound();
+            }
+            return View(player);
         }
 
-        // POST: PlayerController/Edit/5
+        // POST: Player/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(string id, [Bind("Guid,Name,GamesWon,GamesLost,GamesTied")] Player player)
         {
-            try
+            if (id != player.Guid)
             {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(player);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PlayerExists(player.Guid))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(player);
         }
 
-        // GET: PlayerController/Delete/5
-        public ActionResult Delete(int id)
+        // GET: Player/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var player = await _context.Players
+                .FirstOrDefaultAsync(m => m.Guid == id);
+            if (player == null)
+            {
+                return NotFound();
+            }
+
+            return View(player);
         }
 
-        // POST: PlayerController/Delete/5
-        [HttpPost]
+        // POST: Player/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var player = await _context.Players.FindAsync(id);
+            _context.Players.Remove(player);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool PlayerExists(string id)
+        {
+            return _context.Players.Any(e => e.Guid == id);
         }
     }
 }

@@ -32,9 +32,9 @@ namespace ReversiMvcApp.Services
             return false;
         }
 
-        public async Task<bool> DeleteAsync(int id, string path)
+        public async Task<bool> DeleteAsync(string id, string path)
         {
-            var response = await _apiClient.Delete(path, id.ToString());
+            var response = await _apiClient.Delete(path, id);
             if (response.IsSuccessStatusCode) return true;
             return false;
         }
@@ -48,24 +48,24 @@ namespace ReversiMvcApp.Services
             return items;
         }
 
-        public async Task<T> GetAsync(int id, string path)
+        public async Task<T> GetAsync(string id, string path)
         {
             T item = new();
-            var response = await _apiClient.Get(path, id.ToString());
+            var response = await _apiClient.Get(path, id);
             if (response.IsSuccessStatusCode) item = await response.Content.ReadAsAsync<T>();
             return item;
         }
 
-        public async Task<bool> UpdateAsync(int id, T item, string path)
+        public async Task<bool> UpdateAsync(string id, T item, string path)
         {
-            var response = await _apiClient.Put(path, id.ToString(), item);
+            var response = await _apiClient.Put(path, id, item);
             if (response.IsSuccessStatusCode) return true;
             return false;
         }
 
-        public async Task<bool> UpdateSpecialAsync(int id, object item, string path)
+        public async Task<bool> UpdateSpecialAsync(string id, object item, string path)
         {
-            var response = await _apiClient.Put(path, id.ToString(), item);
+            var response = await _apiClient.Put(path, id, item);
             if (response.IsSuccessStatusCode) return true;
             return false;
         }

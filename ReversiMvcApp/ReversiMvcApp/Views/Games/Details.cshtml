@@ -1,0 +1,49 @@
+﻿@model ReversiMvcApp.Models.Game
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Game</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Player1Token)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Player1Token)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Player2Token)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Player2Token)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Board)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Board)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TurnColor)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TurnColor)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Play" asp-route-id="@Model.Token">Play</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Token">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

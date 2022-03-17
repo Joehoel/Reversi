@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using API.Model;
 using API.Repositories;
-using System.Linq;
 namespace API.DAL
 {
     public class GameAccessLayer : IGameRepository
@@ -18,9 +18,23 @@ namespace API.DAL
             _context.SaveChanges();
         }
 
+        public bool DeleteGame(string gameToken)
+        {
+            var game = GetGame(gameToken);
+
+            if (game != null)
+            {
+                _context.Games.Remove(game);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
         public Game GetGame(string gameToken)
         {
-            return _context.Games.First(game => game.Token == gameToken);
+            return _context.Games.FirstOrDefault(game => game.Token == gameToken);
         }
 
         public List<Game> GetGames()

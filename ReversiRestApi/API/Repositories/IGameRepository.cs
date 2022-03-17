@@ -10,5 +10,6 @@ namespace API.Repositories
         public List<Game> GetGames();
 
         Game GetGame(string gameToken);
+        bool DeleteGame(string gameToken);
     }
 }
