@@ -1,0 +1,38 @@
+﻿@model ReversiMvcApp.Models.Game
+
+@{
+    ViewData["Title"] = "Results";
+}
+
+<div class="results">
+
+    @* <h1 class="results__title">Results</h1> *@
+
+    <div class="results__score">
+        <h2>Winner</h2>
+        @if (@Model.Winner != null)
+        {
+            <p>@Html.DisplayFor(model => model.Winner)</p>
+        }
+        else
+        {
+            <p>Tie</p>
+        }
+    </div>
+
+    <div class="results__content">
+        <div class="results__score results__score--black">
+            <h2>Black</h2>
+            <span>
+                @Html.DisplayFor(model => model.BlackCount)
+            </span>
+        </div>
+
+        <div class="results__score results__score--white">
+            <h2>White</h2>
+            <span>
+                @Html.DisplayFor(model => model.WhiteCount)
+            </span>
+        </div>
+    </div>
+</div>

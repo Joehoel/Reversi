@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dzJJilQ9DWXqoGM3V+BgRc7axQSJfkHzDbeXHHGsRNoSa2YYMOfxif0JtXZYSCQxkqa7+VMO2qbLswBZClcTHQ==",
+  "dgSpecHash": "VzIORHrM0fxwvf5YsGz7L4ztZLfr5xPl9lqLeuvuieSF9yWBdjfg+gY5tD9P1GktVycrHwO2F4259aLJRUSgUQ==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\Tests\\Tests.csproj",
+  "projectFilePath": "C:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\Tests\\Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Joel\\.nuget\\packages\\coverlet.collector\\3.1.0\\coverlet.collector.3.1.0.nupkg.sha512",
     "C:\\Users\\Joel\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

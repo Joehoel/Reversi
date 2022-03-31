@@ -36,7 +36,11 @@ namespace ReversiMvcApp.Lib
         {
             path += "/" + key;
 
+            Console.WriteLine(path);
+            Console.WriteLine(key);
+
             var response = await _client.PutAsJsonAsync(path, entity);
+            Console.WriteLine(response);
             return response;
         }
 

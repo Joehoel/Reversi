@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using API.Model;
 using API.Repositories;
+
 namespace API.DAL
 {
     public class GameAccessLayer : IGameRepository
@@ -40,6 +41,12 @@ namespace API.DAL
         public List<Game> GetGames()
         {
             return _context.Games.ToList();
+        }
+
+        public void UpdateGame(Game game)
+        {
+            _context.Games.Update(game);
+            _context.SaveChanges();
         }
     }
 }

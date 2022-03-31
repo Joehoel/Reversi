@@ -44,6 +44,9 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("Winner")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
                     b.ToTable("Games");

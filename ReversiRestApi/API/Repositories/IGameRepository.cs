@@ -11,5 +11,6 @@ namespace API.Repositories
 
         Game GetGame(string gameToken);
         bool DeleteGame(string gameToken);
+        void UpdateGame(Game game);
     }
 }

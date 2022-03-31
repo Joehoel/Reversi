@@ -5,7 +5,7 @@ export default defineConfig({
         watch: true,
         minify: false,
         rollupOptions: {
-            // treeshake: false,
+            treeshake: false,
             output: {
                 dir: "../ReversiMvcApp/ReversiMvcApp/wwwroot",
                 assetFileNames: assetInfo => {

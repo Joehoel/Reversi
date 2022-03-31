@@ -6,6 +6,19 @@
     padding: 0;
 }
 
+// body {
+//     background-color: #1d1818;
+//     background-image: url(http://www.transparenttextures.com/patterns/wood-pattern.png);
+//     /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+// }
+
+// .navbar {
+//     // background-color: #000000;
+//     -webkit-backdrop-filter: blur(10px);
+//     backdrop-filter: blur(10px);
+//     // background-image: url(http://www.transparenttextures.com/patterns/wood-pattern.png);
+// }
+
 .widget {
     border-radius: 1rem;
     position: relative;
@@ -37,6 +50,10 @@
     &__buttons button:first-child {
         margin-right: 0.5rem;
     }
+}
+.wrapper {
+    display: grid;
+    place-items: center;
 }
 
 .grid {
@@ -109,5 +126,31 @@
     html,
     body {
         font-size: 8px;
+    }
+}
+
+.results {
+    &__content {
+        display: flex;
+        justify-content: space-around;
+        margin: 2rem 0;
+    }
+    &__score {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h2 {
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        span {
+            font-size: 2rem;
+            font-variant-numeric: normal;
+        }
+        p {
+            font-size: 2rem;
+        }
     }
 }

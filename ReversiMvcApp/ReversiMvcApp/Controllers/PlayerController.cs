@@ -16,7 +16,7 @@ namespace ReversiMvcApp
 
         public PlayerController(ReversiDbContext context)
         {
-            _context = context;l
+            _context = context;
         }
 
         // GET: Player

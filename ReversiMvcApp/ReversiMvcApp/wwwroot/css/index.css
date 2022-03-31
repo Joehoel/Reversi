@@ -34,6 +34,11 @@
   margin-right: 0.5rem;
 }
 
+.wrapper {
+  display: grid;
+  place-items: center;
+}
+
 .grid {
   --size: 80px;
   --gap: 2px;
@@ -98,4 +103,25 @@
 body {
     font-size: 8px;
   }
+}
+.results__content {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem 0;
+}
+.results__score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.results__score h2 {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.results__score span {
+  font-size: 2rem;
+  font-variant-numeric: normal;
+}
+.results__score p {
+  font-size: 2rem;
 }

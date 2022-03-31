@@ -51,5 +51,10 @@ namespace API.Repositories
             }
             return false;
         }
+
+        public void UpdateGame(Game game)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

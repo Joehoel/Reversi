@@ -22,7 +22,7 @@ namespace API.Controllers
 
         // GET /api/game
         [HttpGet]
-        public ActionResult<IEnumerable<Game>> GetSpelOmschrijvingenVanSpellenMetWachtendeSpeler()
+        public ActionResult<IEnumerable<Game>> GetWaitingGames()
         {
             return _repository.GetGames().Where(spel => string.IsNullOrEmpty(spel.Player2Token)).ToList();
 
@@ -30,11 +30,12 @@ namespace API.Controllers
 
         // GET /api/game/{token}
         [HttpGet("{token}")]
-        public ActionResult<Game> GetSpelByToken(string token)
+        public ActionResult<Game> GetGameByToken(string token)
         {
-            var spel = _repository.GetGame(token);
-            if (spel == null) return NotFound();
-            return Ok(spel);
+            var game = _repository.GetGame(token);
+            if (game == null) return NotFound();
+
+            return Ok(game);
         }
 
         // GET /api/game/player/{playerToken}
@@ -104,12 +105,60 @@ namespace API.Controllers
 
         }
 
+        public class JoinData
+        {
+            public string Player2Token { get; set; }
+        }
+
+
+        // PUT /api/game/join
+        [HttpPut("join/{token}")]
+        public ActionResult<Game> Join(string token, [FromBody] JoinData data)
+        {
+            var game = _repository.GetGame(token);
+
+            if (game == null) return NotFound();
+
+            if (data.Player2Token == null)
+            {
+                return BadRequest($"{nameof(data.Player2Token)} is not defined.");
+            }
+            else if (game.Player2Token != null)
+            {
+                return BadRequest("Game is full.");
+            }
+            else if (token == null)
+            {
+                return BadRequest($"{nameof(token)} is not defined.");
+            }
+
+            game.Player2Token = data.Player2Token;
+            game.TurnColor = Color.Black;
+
+            _repository.UpdateGame(game);
+            return Ok(game);
+        }
+
         // PUT /api/game/move
         [HttpPut("move")]
         public ActionResult<Game> Move([FromBody] MoveData data)
         {
             var game = _repository.GetGame(data.Token);
             if (game == null) return NotFound();
+
+
+            if (data.Pass)
+            {
+                try
+                {
+                    game.Pass();
+                    return Ok(game);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Niet mogelijk");
+                }
+            }
 
             // Check if its the players turn
             if ((game.TurnColor == Color.White ? game.Player1Token : game.Player2Token) != data.PlayerToken)
@@ -123,13 +172,10 @@ namespace API.Controllers
                 return BadRequest("Niet mogelijk");
             }
 
-            if (data.Pass)
-            {
-                game.Pass();
-                return Ok(game);
-            }
 
             game.Move(data.Row, data.Column);
+            _repository.UpdateGame(game);
+
 
             return Ok(game);
         }
@@ -147,8 +193,8 @@ namespace API.Controllers
                 return Unauthorized("Niet jouw beurt");
             }
 
-            // TODO: Opgeven
-            return null;
+            game.Winner = Game.GetOpponentColor(game.TurnColor);
+            return Ok(game);
         }
     }
 

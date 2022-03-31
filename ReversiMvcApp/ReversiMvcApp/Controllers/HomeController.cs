@@ -30,7 +30,7 @@ namespace ReversiMvcApp.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var currentUserID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 

@@ -36,7 +36,7 @@ namespace API
             {
                 options.AddPolicy(name: "Reversi", builder =>
                 {
-                    builder.WithOrigins("https://localhost:5001");
+                    builder.WithOrigins("https://localhost:5001").AllowAnyMethod().AllowAnyHeader();
                 });
             });
         }
@@ -52,7 +52,6 @@ namespace API
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();

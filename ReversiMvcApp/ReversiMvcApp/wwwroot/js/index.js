@@ -1,3 +1,9 @@
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => {
+  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
 import { H as HubConnectionBuilder } from "./vendor.js";
 const p = function polyfill() {
   const relList = document.createElement("link").relList;
@@ -42,43 +48,130 @@ const p = function polyfill() {
 };
 p();
 var main$1 = "";
-const gridElement = document.querySelector(".grid");
-const rows = gridElement.querySelectorAll(".grid__row");
-const grid = /* @__PURE__ */ new Map();
-rows.forEach((row2) => {
-  const map = /* @__PURE__ */ new Map();
-  const columns = row2.querySelectorAll(".grid__column");
-  columns.forEach((col) => {
-    map.set(col.dataset.column, col);
-  });
-  grid.set(row2.dataset.row, map);
-});
-for (const [rowNum, row2] of grid.entries()) {
-  for (const [colNum, col] of row2.entries()) {
-    col.addEventListener("click", () => connection.invoke("Move", +rowNum, +colNum, "black"));
+class Game {
+  constructor(url, token, playerToken) {
+    __publicField(this, "url");
+    __publicField(this, "token");
+    __publicField(this, "playerToken");
+    __publicField(this, "grid", /* @__PURE__ */ new Map());
+    __publicField(this, "board", [[]]);
+    __publicField(this, "connection");
+    this.url = url;
+    this.token = token;
+    this.playerToken = playerToken;
+    this.connection = new HubConnectionBuilder().withUrl("/hub").build();
+    this.init();
+    const gridElement = document.querySelector(".grid");
+    const rows = gridElement.querySelectorAll(".grid__row");
+    rows.forEach((row) => {
+      const map = /* @__PURE__ */ new Map();
+      const columns = row.querySelectorAll(".grid__column");
+      columns.forEach((col) => {
+        map.set(col.dataset.column, col);
+      });
+      this.grid.set(row.dataset.row, map);
+    });
+    for (const [rowNum, row] of this.grid.entries()) {
+      for (const [colNum, col] of row.entries()) {
+        col.addEventListener("click", () => {
+          this.move({ column: parseInt(colNum), row: parseInt(rowNum) });
+        });
+      }
+    }
+  }
+  async init() {
+    try {
+      await this.connection.start();
+      await this.updateBoard();
+      this.connection.invoke("Join", this.token);
+      this.connection.on("message", (message) => console.log(`Message: ${message}`));
+      this.connection.on("move", async () => {
+        await this.updateBoard();
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async updateBoard() {
+    console.log("Updating");
+    const response = await fetch(`${this.url}/${this.token}`);
+    if (response.status === 502) {
+      await this.updateBoard();
+    } else if (response.status != 200) {
+      console.error(`Something went wrong: ${response.statusText}`);
+      await new Promise((resolve) => setTimeout(resolve, 1e4));
+      await this.updateBoard();
+    } else {
+      const game = await response.json();
+      if (game.winner !== 0) {
+      }
+      this.board = game.board;
+      this.board.forEach((row, rowIndex) => {
+        row.forEach((value, colIndex) => {
+          this.showFiche({
+            color: value,
+            column: colIndex,
+            row: rowIndex
+          });
+        });
+      });
+    }
+  }
+  async move({ column, row }) {
+    const move = {
+      playerToken: this.playerToken,
+      token: this.token,
+      row,
+      column
+    };
+    const response = await fetch(`${this.url}/move`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(move)
+    });
+    switch (response.status) {
+      case 401:
+        alert("Niet jou beurt");
+        break;
+      case 400:
+        alert("Niet mogelijk");
+      case 200:
+        this.connection.invoke("Move", this.token);
+      default:
+        break;
+    }
+  }
+  showFiche({ color, column, row }) {
+    var _a;
+    if (color === 0 || typeof color === "undefined") {
+      return;
+    }
+    const colors = {
+      "1": "white",
+      "2": "black"
+    };
+    const fiche = document.createElement("span");
+    fiche.classList.add(...["fiche", `fiche--${colors[color]}`]);
+    const parent = (_a = this.grid.get(row.toString())) == null ? void 0 : _a.get(column.toString());
+    if (parent) {
+      parent.childNodes.forEach((node) => node.remove());
+      parent.appendChild(fiche);
+    }
+    if (this.board) {
+      this.board[row][column] = color;
+    }
   }
 }
-const row = Array.from({ length: 8 }).map(() => 0);
-const cols = Array.from({ length: 8 }).map(() => row.slice(0));
-const board = cols;
-const connection = new HubConnectionBuilder().withUrl("/hub").build();
-function showFiche(row2, column, color) {
-  var _a, _b;
-  const fiche = document.createElement("span");
-  fiche.classList.add(...["fiche", `fiche--${color}`]);
-  (_b = (_a = grid.get(row2.toString())) == null ? void 0 : _a.get(column.toString())) == null ? void 0 : _b.appendChild(fiche);
-  const num = color === "white" ? 1 : 2;
-  board[row2 - 1][column - 1] = num;
+function handleClick(e) {
 }
 async function main() {
-  await connection.start();
-  const token = window.location.href.split("/").at(-1);
-  connection.on("move", (row2, col, color) => {
-    showFiche(row2, col, color);
-    console.log(color);
-  });
-  const response = await fetch(`https://localhost:6001/api/game/${token}`);
-  await response.json();
+  var _a;
+  const token = decodeURIComponent(window.location.href.split("/").at(-1));
+  const playerToken = (_a = document.querySelector("#playerToken")) == null ? void 0 : _a.value;
+  console.log(playerToken);
+  const game = new Game("https://localhost:6001/api/game", token, playerToken);
 }
 document.addEventListener("DOMContentLoaded", () => {
   try {

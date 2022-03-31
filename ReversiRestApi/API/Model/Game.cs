@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -25,6 +27,21 @@ namespace API.Model
         public string Token { get; set; }
         public string Player1Token { get; set; }
         public string Player2Token { get; set; }
+        private Color? _winner;
+        public Color? Winner
+        {
+            get
+            {
+                if (!(TurnPossible(Color.White) && TurnPossible(Color.Black)))
+                {
+                    _winner = DominantColor() == Color.None ? null : DominantColor();
+                    return _winner;
+                }
+
+                return _winner;
+            }
+            set { _winner = value; }
+        }
 
         private Color[,] _board;
 
@@ -69,7 +86,47 @@ namespace API.Model
 
         public bool GameOver()     // return true als geen van de spelers een zet kan doen
         {
-            return !(TurnPossible(Color.White) && TurnPossible(Color.Black));
+            if (!(TurnPossible(Color.White) && TurnPossible(Color.Black)))
+            {
+                Winner = DominantColor() == Color.None ? null : DominantColor();
+                return true;
+            }
+            return false;
+        }
+
+
+
+        public int WhiteCount
+        {
+            get
+            {
+                int count = 0;
+                for (int row = 0; row < boardSize; row++)
+                {
+                    for (int column = 0; column < boardSize; column++)
+                    {
+                        if (_board[row, column] == Color.White)
+                            count++;
+                    }
+                }
+                return count;
+            }
+        }
+        public int BlackCount
+        {
+            get
+            {
+                int count = 0;
+                for (int row = 0; row < boardSize; row++)
+                {
+                    for (int column = 0; column < boardSize; column++)
+                    {
+                        if (_board[row, column] == Color.Black)
+                            count++;
+                    }
+                }
+                return count;
+            }
         }
 
         public Color DominantColor()
@@ -118,7 +175,7 @@ namespace API.Model
             TurnColor = GetOpponentColor(TurnColor);
         }
 
-        private static Color GetOpponentColor(Color kleur)
+        public static Color GetOpponentColor(Color kleur)
         {
             if (kleur == Color.White)
                 return Color.Black;

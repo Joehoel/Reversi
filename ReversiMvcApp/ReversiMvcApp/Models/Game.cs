@@ -14,7 +14,14 @@ namespace ReversiMvcApp.Models
         public string Player2Token { get; set; }
         public Color[,] Board { get; set; }
         public Color TurnColor { get; set; }
+        public int WhiteCount { get; set; }
+        public int BlackCount { get; set; }
+        public Color? Winner { get; set; }
 
+        public override string ToString()
+        {
+            return $"{nameof(Game)}: {Token} - {Player1Token} - {Player2Token}";
+        }
     }
 }
 

@@ -1,11 +1,15 @@
 ﻿namespace API.Model
 {
     public enum Color { None, White, Black };
-
     public interface IGame
     {
         int ID { get; set; }
         string Description { get; set; }
+
+        int WhiteCount { get; }
+        int BlackCount { get; }
+        Color? Winner { get; set; }
+
 
         //het unieke token van het spel
         string Token { get; set; }

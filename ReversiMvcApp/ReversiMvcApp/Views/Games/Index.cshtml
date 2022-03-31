@@ -50,8 +50,8 @@
                     @Html.DisplayFor(modelItem => item.TurnColor)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Token">Join</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Token">Delete</a> 
+                    <a asp-action="Join" asp-route-id="@item.Token">Join</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Token">Delete</a>
                 </td>
             </tr>
         }

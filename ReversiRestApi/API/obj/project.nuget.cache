@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KHNkWrxa/k6BX+0y8J7j18A2S1E2NnI6e9AXh33hG4raz+s1k6uBKh9AFtMikLUHiw/VegYCZxX3YrgDSw5upw==",
+  "dgSpecHash": "gOwjtguDOd5DziR7L22rQD+A/kIyLjZrZhGzffR3w19Nte6GlG4BrlBzlsp45QQ0H8xyzp2I4O+wnYl/rY7pxA==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\Joel\\code\\Reversi\\ReversiRestApi\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Joel\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Joel\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\5.0.0\\microsoft.aspnetcore.jsonpatch.5.0.0.nupkg.sha512",
