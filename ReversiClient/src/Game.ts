@@ -1,5 +1,6 @@
-import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
+import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { score } from "./lib/helpers";
+import Stats from "./Stats";
 
 import type { IGame, TBoard, Move, Colors } from "./types";
 
@@ -8,8 +9,9 @@ export default class Game {
     private token: string;
     private playerToken: string;
     private grid = new Map<string, Map<string, HTMLDivElement>>();
-    private board?: TBoard = [[]];
+    public board: TBoard = [[]];
     private connection: HubConnection;
+    private stats: Stats;
 
     public constructor(url: string, token: string, playerToken: string) {
         this.url = url;
@@ -18,10 +20,13 @@ export default class Game {
 
         this.connection = new HubConnectionBuilder().withUrl("/hub").build();
 
-        this.init();
+        this.stats = new Stats("#stats");
 
         const gridElement = document.querySelector<HTMLDivElement>(".grid")!;
         const rows = gridElement.querySelectorAll<HTMLDivElement>(".grid__row")!;
+        const concedeButton = document.querySelector("#concede");
+
+        concedeButton?.addEventListener("click", () => this.concede());
 
         rows.forEach(row => {
             const map = new Map<string, HTMLDivElement>();
@@ -44,53 +49,66 @@ export default class Game {
         }
     }
 
+    private async concede() {
+        const response = await fetch(`${this.url}/concede`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token: this.token, playerToken: this.playerToken }),
+        });
+        if (!response.ok) {
+            const message = await response.text();
+
+            alert(message);
+        } else {
+            this.redirect(`/Games/Results/${this.token}`);
+        }
+    }
+
     async init() {
         try {
             await this.connection.start();
             await this.updateBoard();
 
-            this.connection.invoke("Join", this.token);
-            this.connection.on("message", message => console.log(`Message: ${message}`));
-            this.connection.on("move", async () => {
-                await this.updateBoard();
-            });
+            if (this.connection.state === HubConnectionState.Connected) {
+                console.log("Connected");
+
+                this.connection.invoke("Join", this.token);
+                this.connection.on("message", message => console.log(`Message: ${message}`));
+                this.connection.on("move", async () => {
+                    await this.updateBoard();
+                });
+            }
         } catch (error) {
             console.error(error);
         }
     }
 
+    private redirect(to: string) {
+        window.location.href = encodeURI(`${window.location.origin}${to}`);
+    }
+
     async updateBoard() {
         console.log("Updating");
         const response = await fetch(`${this.url}/${this.token}`);
+        const game = (await response.json()) as IGame;
 
-        if (response.status === 502) {
-            await this.updateBoard();
-        } else if (response.status != 200) {
-            console.error(`Something went wrong: ${response.statusText}`);
-            await new Promise(resolve => setTimeout(resolve, 10000));
-            await this.updateBoard();
-        } else {
-            const game = (await response.json()) as IGame;
+        console.log(game);
 
-            if (game.winner !== 0) {
-                // window.location.href = `${
-                //     window.location.origin
-                // }/Games/Results/${encodeURIComponent(this.token)}`;
-                // return;
-            }
+        this.board = game.board;
 
-            this.board = game.board;
-
-            this.board.forEach((row, rowIndex) => {
-                row.forEach((value, colIndex) => {
-                    this.showFiche({
-                        color: value,
-                        column: colIndex,
-                        row: rowIndex,
-                    });
+        this.board.forEach((row, rowIndex) => {
+            row.forEach((value, colIndex) => {
+                this.showFiche({
+                    color: value,
+                    column: colIndex,
+                    row: rowIndex,
                 });
             });
-        }
+        });
+
+        this.stats.update(this.board);
     }
 
     public async move({ column, row }: Move) {
@@ -109,18 +127,31 @@ export default class Game {
             body: JSON.stringify(move),
         });
 
-        switch (response.status) {
-            case 401:
-                alert("Niet jou beurt");
-                break;
+        if (response.ok) {
+            this.connection.invoke("Move", this.token);
+        } else {
+            const message = await response.text();
 
-            case 400:
-                alert("Niet mogelijk");
-            case 200:
-                this.connection.invoke("Move", this.token);
-            default:
-                break;
+            // TODO: Convert to Enum
+            if (message.toLowerCase() === "game over") {
+                this.redirect(`/Games/Results/${this.token}`);
+            } else {
+                alert(message);
+            }
         }
+
+        // switch (request.status) {
+        //     case 401:
+        //         alert("Niet jou beurt");
+        //         break;
+
+        //     case 400:
+        //         alert("Niet mogelijk");
+        //     case 200:
+        //         this.connection.invoke("Move", this.token);
+        //     default:
+        //         break;
+        // }
     }
 
     public showFiche({ color, column, row }: Move) {

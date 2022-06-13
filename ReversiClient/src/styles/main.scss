@@ -54,6 +54,15 @@
 .wrapper {
     display: grid;
     place-items: center;
+    position: relative;
+}
+
+#stats {
+    position: absolute;
+    max-width: 250px;
+    max-height: 40%;
+    right: -10rem;
+    top: 1rem;
 }
 
 .grid {

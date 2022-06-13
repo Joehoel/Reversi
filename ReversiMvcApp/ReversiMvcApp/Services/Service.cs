@@ -10,7 +10,7 @@ namespace ReversiMvcApp.Services
 {
     public class Service<T> : IService<T> where T : new()
     {
-        private readonly ApiClient _apiClient;
+        private readonly ApiService _apiClient;
         public Service(IConfiguration configuration, IHttpClientFactory factory)
         {
             // Onderstaande komt uit: https://www.aspsnippets.com/Articles/Using-IConfiguration-in-ASPNet-Core.aspx
@@ -23,7 +23,7 @@ namespace ReversiMvcApp.Services
 
             var _factory = factory;
 
-            _apiClient = new ApiClient(_factory, _connectionstring);
+            _apiClient = new ApiService(_factory, _connectionstring);
         }
 
         public async Task<bool> AddAsync(T item, string path)

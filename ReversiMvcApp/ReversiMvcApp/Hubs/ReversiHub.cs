@@ -4,6 +4,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using ReversiMvcApp.Data;
+using System.Security.Claims;
+using ReversiMvcApp.Lib;
 
 namespace ReversiMvcApp.Hubs
 {

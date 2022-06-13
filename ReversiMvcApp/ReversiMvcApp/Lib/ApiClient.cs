@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace ReversiMvcApp.Lib
 {
-    public class ApiClient
+    public class ApiService
     {
         private readonly HttpClient _client;
 
-        public ApiClient(IHttpClientFactory factory, string baseAddress)
+        public ApiService(IHttpClientFactory factory, string baseAddress)
         {
             var _factory = factory;
             var _baseaddress = new Uri(baseAddress);

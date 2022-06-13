@@ -1,9 +1,4 @@
-import FeedbackWidget from "./FeedbackWidget";
 import Game from "./Game";
-import Model from "./Game.Model";
-import Reversi from "./Game.Reversi";
-
-function handleClick(e: Event) {}
 
 async function main() {
     const token = decodeURIComponent(window.location.href.split("/").at(-1)!);
@@ -11,6 +6,8 @@ async function main() {
     console.log(playerToken);
 
     const game = new Game("https://localhost:6001/api/game", token, playerToken);
+
+    await game.init();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

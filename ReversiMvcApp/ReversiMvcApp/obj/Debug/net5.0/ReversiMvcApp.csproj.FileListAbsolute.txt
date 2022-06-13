@@ -66,7 +66,6 @@ C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\staticwe
 C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\ReversiMvcApp.TagHelpers.input.cache
 C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\ReversiMvcApp.TagHelpers.output.cache
 C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\ReversiMvcApp.RazorCoreGenerate.cache
-C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
 C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
@@ -171,3 +170,18 @@ C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Vi
 C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Views\Games\Index.cshtml.g.cs
 C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Views\Games\Play.cshtml.g.cs
 C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Views\Games\Results.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\bin\Debug\net5.0\Microsoft.AspNetCore.NodeServices.dll
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\bin\Debug\net5.0\Microsoft.AspNetCore.SpaServices.dll
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\bin\Debug\net5.0\Microsoft.AspNetCore.SpaServices.Extensions.dll
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Admin\Claims.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Admin\Users.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Data\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Data\_ViewImports.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Data\_ViewStart.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.g.cs
+C:\Users\Joel\code\Reversi\ReversiMvcApp\ReversiMvcApp\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs

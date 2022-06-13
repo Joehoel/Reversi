@@ -1550,7 +1550,7 @@ namespace Tests
             // 7   1 1 1 1 1 1 1 1
             // Act
             spel.TurnColor = Color.White;
-            var actual = spel.GameOver();
+            var actual = spel.HasEnded();
             // Assert
             Assert.IsTrue(actual);
         }
@@ -1637,7 +1637,7 @@ namespace Tests
             // 7   1 1 1 1 1 1 1 1
             // Act
             spel.TurnColor = Color.White;
-            var actual = spel.GameOver();
+            var actual = spel.HasEnded();
             // Assert
             Assert.IsTrue(actual);
         }
@@ -1660,7 +1660,7 @@ namespace Tests
             //
             // Act
             spel.TurnColor = Color.White;
-            var actual = spel.GameOver();
+            var actual = spel.HasEnded();
             // Assert
             Assert.IsFalse(actual);
         }

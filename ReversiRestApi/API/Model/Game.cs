@@ -27,24 +27,42 @@ namespace API.Model
         public string Token { get; set; }
         public string Player1Token { get; set; }
         public string Player2Token { get; set; }
-        private Color? _winner;
-        public Color? Winner
+
+        public int WhiteCount
         {
             get
             {
-                if (!(TurnPossible(Color.White) && TurnPossible(Color.Black)))
+                int count = 0;
+                for (int row = 0; row < boardSize; row++)
                 {
-                    _winner = DominantColor() == Color.None ? null : DominantColor();
-                    return _winner;
+                    for (int column = 0; column < boardSize; column++)
+                    {
+                        if (_board[row, column] == Color.White)
+                            count++;
+                    }
                 }
-
-                return _winner;
+                return count;
             }
-            set { _winner = value; }
+        }
+        public int BlackCount
+        {
+            get
+            {
+                int count = 0;
+                for (int row = 0; row < boardSize; row++)
+                {
+                    for (int column = 0; column < boardSize; column++)
+                    {
+                        if (_board[row, column] == Color.Black)
+                            count++;
+                    }
+                }
+                return count;
+            }
         }
 
+        public Color? Winner { get; set; }
         private Color[,] _board;
-
 
         public Color[,] Board
         {
@@ -82,51 +100,24 @@ namespace API.Model
             else
                 SwitchTurn();
         }
-
-
-        public bool GameOver()     // return true als geen van de spelers een zet kan doen
+        public bool HasPlayer(string playerToken)
         {
-            if (!(TurnPossible(Color.White) && TurnPossible(Color.Black)))
-            {
-                Winner = DominantColor() == Color.None ? null : DominantColor();
-                return true;
-            }
-            return false;
+            return playerToken.Equals(Player1Token) || playerToken.Equals(Player2Token);
         }
 
-
-
-        public int WhiteCount
+        public bool isFull()
         {
-            get
-            {
-                int count = 0;
-                for (int row = 0; row < boardSize; row++)
-                {
-                    for (int column = 0; column < boardSize; column++)
-                    {
-                        if (_board[row, column] == Color.White)
-                            count++;
-                    }
-                }
-                return count;
-            }
+            return !string.IsNullOrEmpty(Player1Token) && !string.IsNullOrEmpty(Player2Token);
         }
-        public int BlackCount
+
+        public bool HasEnded()
         {
-            get
-            {
-                int count = 0;
-                for (int row = 0; row < boardSize; row++)
-                {
-                    for (int column = 0; column < boardSize; column++)
-                    {
-                        if (_board[row, column] == Color.Black)
-                            count++;
-                    }
-                }
-                return count;
-            }
+            return (TurnPossible(Color.White) || TurnPossible(Color.Black));
+        }
+
+        public void Concede(Color TurnColor)
+        {
+            Winner = GetOpponentColor(TurnColor);
         }
 
         public Color DominantColor()
@@ -172,7 +163,7 @@ namespace API.Model
 
             Board[row, column] = TurnColor;
 
-            TurnColor = GetOpponentColor(TurnColor);
+            SwitchTurn();
         }
 
         public static Color GetOpponentColor(Color kleur)

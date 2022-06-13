@@ -138,6 +138,47 @@ namespace API.Controllers
             _repository.UpdateGame(game);
             return Ok(game);
         }
+        public class LeaveData
+        {
+            public string Player1Token { get; set; }
+            public string Player2Token { get; set; }
+        }
+
+        // PUT /api/game/leave
+        [HttpPut("leave/{token}")]
+        public ActionResult<Game> Leave(string token, [FromBody] LeaveData data)
+        {
+            var game = _repository.GetGame(token);
+
+            if (game == null) return NotFound();
+
+            if (data.Player2Token == null)
+            {
+                return BadRequest($"{nameof(data.Player2Token)} is not defined.");
+            }
+            else if (game.isFull())
+            {
+                return BadRequest("Game is full.");
+            }
+            else if (token == null)
+            {
+                return BadRequest($"{nameof(token)} is not defined.");
+            }
+
+            if (data.Player1Token == game.Player1Token) game.Player1Token = null;
+            if (data.Player2Token == game.Player2Token) game.Player2Token = null;
+
+            if (game.Player1Token != null && game.Player2Token != null)
+            {
+                _repository.DeleteGame(game.Token);
+            }
+            else
+            {
+                _repository.UpdateGame(game);
+            }
+
+            return Ok(game);
+        }
 
         // PUT /api/game/move
         [HttpPut("move")]
@@ -146,19 +187,8 @@ namespace API.Controllers
             var game = _repository.GetGame(data.Token);
             if (game == null) return NotFound();
 
-
-            if (data.Pass)
-            {
-                try
-                {
-                    game.Pass();
-                    return Ok(game);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest("Niet mogelijk");
-                }
-            }
+            if (!game.HasPlayer(data.PlayerToken)) return BadRequest("Invalid player");
+            //if (game.HasEnded()) return BadRequest("Game over");
 
             // Check if its the players turn
             if ((game.TurnColor == Color.White ? game.Player1Token : game.Player2Token) != data.PlayerToken)
@@ -166,16 +196,21 @@ namespace API.Controllers
                 return Unauthorized("Niet jouw beurt");
             }
 
-            // Check if the turn is a valid move
-            if (!game.TurnPossible(data.Row, data.Column))
+            try
             {
-                return BadRequest("Niet mogelijk");
+                game.Move(data.Row, data.Column);
+
+                if (game.HasEnded())
+                {
+                    game.Winner = game.DominantColor();
+                }
+
+                _repository.UpdateGame(game);
             }
-
-
-            game.Move(data.Row, data.Column);
-            _repository.UpdateGame(game);
-
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
 
             return Ok(game);
         }
@@ -183,9 +218,9 @@ namespace API.Controllers
 
         // PUT /api/game/concede
         [HttpPut("concede")]
-        public ActionResult<Game> Concede([FromBody] GameData data)
+        public ActionResult<Game> Concede(string token, [FromBody] GameData data)
         {
-            var game = _repository.GetGame(data.Token);
+            var game = _repository.GetGame(token);
             if (game == null) return NotFound();
 
             if ((game.TurnColor == Color.White ? game.Player1Token : game.Player2Token) != data.PlayerToken)
@@ -194,6 +229,7 @@ namespace API.Controllers
             }
 
             game.Winner = Game.GetOpponentColor(game.TurnColor);
+            _repository.UpdateGame(game);
             return Ok(game);
         }
     }

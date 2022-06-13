@@ -92,4 +92,9 @@
             <div class="grid__column" data-column="7"></div>
         </div>
     </div>
-</div>
+
+    <canvas id='stats'></canvas>
+    <button class="btn btn-danger" id="concede">Concede</button>
+    <a asp-action="Results" asp-controller="Games" asp-route-id="@Model.Token" class="btn btn-secondary" id="results">Results</a>
+</div>    
+

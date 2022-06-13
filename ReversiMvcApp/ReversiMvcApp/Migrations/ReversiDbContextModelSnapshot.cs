@@ -224,17 +224,23 @@ namespace ReversiMvcApp.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("GamesLost")
+                    b.Property<int>("Color")
                         .HasColumnType("int");
 
-                    b.Property<int>("GamesTied")
+                    b.Property<int>("Draws")
                         .HasColumnType("int");
 
-                    b.Property<int>("GamesWon")
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Losses")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Wins")
+                        .HasColumnType("int");
 
                     b.HasKey("Guid");
 

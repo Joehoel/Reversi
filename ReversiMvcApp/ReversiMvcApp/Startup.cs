@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,14 +31,11 @@ namespace ReversiMvcApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
@@ -50,6 +48,17 @@ namespace ReversiMvcApp
             services.AddControllersWithViews();
             services.AddScoped<IService<Game>, Service<Game>>();
             services.AddSignalR();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Speler", policy => policy.RequireAuthenticatedUser());
+                options.AddPolicy("Moderator", policyBuilder => policyBuilder.RequireAssertion(
+                    context =>
+                        context.User.HasClaim(claim => claim.Type == "Admin") ||
+                        context.User.HasClaim(claim => claim.Type == "Moderator")
+                ));
+                options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +91,10 @@ namespace ReversiMvcApp
                 endpoints.MapRazorPages();
                 endpoints.MapHub<ReversiHub>("/hub");
             });
+         
+
+
         }
+
     }
 }

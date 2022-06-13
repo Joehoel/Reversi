@@ -3,9 +3,9 @@ import { defineConfig } from "vite";
 export default defineConfig({
     build: {
         watch: true,
-        minify: false,
+        minify: true,
         rollupOptions: {
-            treeshake: false,
+            treeshake: true,
             output: {
                 dir: "../ReversiMvcApp/ReversiMvcApp/wwwroot",
                 assetFileNames: assetInfo => {

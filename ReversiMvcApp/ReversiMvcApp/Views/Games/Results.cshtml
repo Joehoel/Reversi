@@ -10,13 +10,13 @@
 
     <div class="results__score">
         <h2>Winner</h2>
-        @if (@Model.Winner != null)
+        @if (@Model.Winner == null)
         {
-            <p>@Html.DisplayFor(model => model.Winner)</p>
+            <p>Not Ended</p>
         }
         else
         {
-            <p>Tie</p>
+            <p>@Html.DisplayFor(model => model.Winner) </p>
         }
     </div>
 
@@ -34,5 +34,10 @@
                 @Html.DisplayFor(model => model.WhiteCount)
             </span>
         </div>
+    </div>
+
+
+    <div>
+        <a href="">Leave</a>
     </div>
 </div>
