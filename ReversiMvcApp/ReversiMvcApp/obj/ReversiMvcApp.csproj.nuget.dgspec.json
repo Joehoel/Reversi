@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Joel\\code\\Reversi\\ReversiMvcApp\\ReversiMvcApp\\ReversiMvcApp.csproj": {}
+    "/Users/joel/Developer/reversi/ReversiMvcApp/ReversiMvcApp/ReversiMvcApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Joel\\code\\Reversi\\ReversiMvcApp\\ReversiMvcApp\\ReversiMvcApp.csproj": {
+    "/Users/joel/Developer/reversi/ReversiMvcApp/ReversiMvcApp/ReversiMvcApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Joel\\code\\Reversi\\ReversiMvcApp\\ReversiMvcApp\\ReversiMvcApp.csproj",
+        "projectUniqueName": "/Users/joel/Developer/reversi/ReversiMvcApp/ReversiMvcApp/ReversiMvcApp.csproj",
         "projectName": "ReversiMvcApp",
-        "projectPath": "C:\\Users\\Joel\\code\\Reversi\\ReversiMvcApp\\ReversiMvcApp\\ReversiMvcApp.csproj",
-        "packagesPath": "C:\\Users\\Joel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Joel\\code\\Reversi\\ReversiMvcApp\\ReversiMvcApp\\obj\\",
+        "projectPath": "/Users/joel/Developer/reversi/ReversiMvcApp/ReversiMvcApp/ReversiMvcApp.csproj",
+        "packagesPath": "/Users/joel/.nuget/packages/",
+        "outputPath": "/Users/joel/Developer/reversi/ReversiMvcApp/ReversiMvcApp/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Joel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/joel/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -100,8 +93,16 @@
           "warn": true,
           "downloadDependencies": [
             {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[5.0.17, 5.0.17]"
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[5.0.0, 5.0.0]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.osx-x64",
+              "version": "[5.0.16, 5.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[5.0.0, 5.0.0]"
             }
           ],
           "frameworkReferences": {
@@ -112,7 +113,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.105\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/Users/joel/.dotnet/sdk/6.0.202/RuntimeIdentifierGraph.json"
         }
       }
     }
